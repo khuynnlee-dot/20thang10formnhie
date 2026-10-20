@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Vietnamese Women's Day, Mnhie! ♡</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blush: {
+                            50: '#fff7f8',
+                            100: '#ffedf0',
+                            200: '#ffd8df',
+                            300: '#fca2b5',
+                            400: '#f77390',
+                            500: '#e8456c',
+                        },
+                        cream: {
+                            50: '#fffdf9',
+                            100: '#fffaf2',
+                            200: '#fbf0e1',
+                            300: '#f5dfc6',
+                        },
+                        dustyrose: '#a8586c',
+                        deeprose: '#632535',
+                        mutedgreen: '#708262',
+                        leafgreen: '#8b9e7b',
+                        softgold: '#d4af37'
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        script: ['"Dancing Script"', 'cursive'],
+                        romantic: ['"Great Vibes"', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #fffaf2;
+            background-image: 
+                radial-gradient(#f7c5cf 0.75px, transparent 0.75px), 
+                radial-gradient(#f7c5cf 0.75px, #fffaf2 0.75px);
+            background-size: 32px 32px;
+            background-position: 0 0, 16px 16px;
+            overflow-x: hidden;
+            color: #632535;
+        }
+
+        .glass-card {
+            background: rgba(255, 253, 249, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 20px 40px rgba(168, 88, 108, 0.08), 0 6px 16px rgba(247, 115, 144, 0.08);
+        }
+
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 12;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) scale(0.3) rotate(0deg);
+                opacity: 0;
+            }
+            15% { opacity: 0.85; }
+            85% { opacity: 0.85; }
+            100% {
+                transform: translateY(-10vh) scale(1.1) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes softPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 25px -5px rgba(247, 115, 144, 0.3); }
+            50% { transform: scale(1.025); box-shadow: 0 14px 28px -4px rgba(247, 115, 144, 0.45); }
+        }
+
+        .pulse-btn {
+            animation: softPulse 3.5s infinite ease-in-out;
+        }
+
+        /* SVG Botanical Stroke Line Animation */
+        .draw-path {
+            stroke-dasharray: 2000;
+            stroke-dashoffset: 2000;
+            transition: stroke-dashoffset 0.1s linear, fill-opacity 0.8s ease-in-out, fill 0.8s ease-in-out;
+        }
+
+        /* Custom Scrollbar for Letter Modal */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #fff7f8;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #ffd8df;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #fca2b5;
+        }
+
+        .shimmer-heading {
+            background: linear-gradient(90deg, #632535 0%, #a8586c 35%, #e8456c 50%, #a8586c 65%, #632535 100%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 6s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        /* Fireworks Canvas Styling (Behind cards & modal) */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between font-sans relative selection:bg-blush-100 selection:text-dustyrose">
+
+    <!-- Full-screen Fireworks Canvas -->
+    <canvas id="fireworksCanvas"></canvas>
+
+    <!-- Background Floating Particles Container -->
+    <div id="floatingContainer" class="fixed inset-0 pointer-events-none z-10 overflow-hidden"></div>
+
+    <!-- Audio Toggle Button -->
+    <div class="fixed top-5 right-5 z-50">
+        <button id="bgmToggle" onclick="toggleAudio()" class="glass-card w-11 h-11 rounded-full flex items-center justify-center text-dustyrose hover:text-blush-500 hover:scale-110 transition-all duration-300 shadow-sm group relative">
+            <i id="musicIcon" class="fas fa-music text-base group-hover:rotate-12 transition-transform"></i>
+            <span class="absolute -bottom-8 right-0 bg-white/95 text-deeprose text-[10px] font-medium px-2.5 py-0.5 rounded-full shadow-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Music On/Off</span>
+        </button>
+    </div>
+
+    <!-- Background Audio Track -->
+    <audio id="bgm" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-112188.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Container -->
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-6 md:p-10 relative z-20 my-auto">
+
+        <!-- ================= PAGE 1: WHO ARE YOU? ================= -->
+        <section id="page1" class="w-full max-w-xl transition-all duration-700 ease-in-out opacity-100 transform translate-y-0">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 text-center border border-white/90 relative overflow-hidden">
+                
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blush-50 text-dustyrose mb-6 shadow-inner">
+                    <i class="fas fa-spa text-xl text-dustyrose animate-pulse"></i>
+                </div>
+
+                <h1 class="font-serif text-4xl sm:text-5xl font-normal mb-3 text-deeprose tracking-tight italic">
+                    Who are you?
+                </h1>
+                <p class="text-deeprose/70 text-sm sm:text-base font-light mb-8 max-w-md mx-auto">
+                    Please identify yourself before stepping into this little botanical garden made just for you ♡
+                </p>
+
+                <!-- Options Stack -->
+                <div class="space-y-4 max-w-md mx-auto">
+                    <button onclick="goToPage2('Mnhie iu ♡')" class="w-full group relative overflow-hidden bg-gradient-to-r from-cream-50 via-white to-blush-50 hover:from-blush-100 hover:to-blush-200 text-deeprose p-4 sm:p-5 rounded-2xl border border-blush-100 shadow-sm hover:shadow-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-between active:scale-98">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blush-100 group-hover:bg-white/80 flex items-center justify-center text-dustyrose transition-colors">
+                                <i class="fas fa-heart text-xs"></i>
+                            </span>
+                            <span>Mnhie iu ♡</span>
+                        </span>
+                        <i class="fas fa-arrow-right text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-dustyrose"></i>
+                    </button>
+
+                    <button onclick="goToPage2('Mnhie lạnh lùng')" class="w-full group relative overflow-hidden bg-gradient-to-r from-cream-50 via-white to-blush-50 hover:from-blush-100 hover:to-blush-200 text-deeprose p-4 sm:p-5 rounded-2xl border border-blush-100 shadow-sm hover:shadow-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-between active:scale-98">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blush-100 group-hover:bg-white/80 flex items-center justify-center text-dustyrose transition-colors">
+                                <i class="fas fa-snowflake text-xs"></i>
+                            </span>
+                            <span>Mnhie lạnh lùng</span>
+                        </span>
+                        <i class="fas fa-arrow-right text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-dustyrose"></i>
+                    </button>
+
+                    <button onclick="goToPage2('Mnhie nonchalant')" class="w-full group relative overflow-hidden bg-gradient-to-r from-cream-50 via-white to-blush-50 hover:from-blush-100 hover:to-blush-200 text-deeprose p-4 sm:p-5 rounded-2xl border border-blush-100 shadow-sm hover:shadow-md transition-all duration-300 font-medium text-base sm:text-lg flex items-center justify-between active:scale-98">
+                        <span class="flex items-center gap-3">
+                            <span class="w-8 h-8 rounded-full bg-blush-100 group-hover:bg-white/80 flex items-center justify-center text-dustyrose transition-colors">
+                                <i class="fas fa-crown text-xs"></i>
+                            </span>
+                            <span>Mnhie nonchalant</span>
+                        </span>
+                        <i class="fas fa-arrow-right text-xs opacity-40 group-hover:opacity-100 group-hover:translate-x-1 transition-all text-dustyrose"></i>
+                    </button>
+                </div>
+
+                <div class="mt-8 text-xs text-dustyrose/60 font-medium tracking-wide">
+                    October 20th • Vietnamese Women's Day Special
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 2: DO YOU WANT A GIFT? ================= -->
+        <section id="page2" class="w-full max-w-xl transition-all duration-700 ease-in-out hidden opacity-0 transform translate-y-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 text-center border border-white/90 relative">
+                
+                <div class="relative inline-block mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-tr from-blush-100 to-cream-100 rounded-2xl flex items-center justify-center text-dustyrose shadow-inner mx-auto transform -rotate-2 hover:rotate-0 transition-transform">
+                        <span class="text-4xl animate-bounce">🎁</span>
+                    </div>
+                    <span class="absolute -top-1.5 -right-1.5 bg-dustyrose text-white text-[10px] uppercase font-semibold tracking-wider px-2 py-0.5 rounded-full shadow-sm">
+                        For You
+                    </span>
+                </div>
+
+                <div id="greetingBadge" class="inline-block bg-blush-50 text-dustyrose text-xs font-semibold px-4 py-1.5 rounded-full mb-3 border border-blush-100">
+                    Hello, Mnhie! ♡
+                </div>
+
+                <h2 class="font-serif text-3xl sm:text-4xl font-normal mb-8 text-deeprose leading-tight italic">
+                    Do you want your October 20th gift? 🎁
+                </h2>
+
+                <div id="teaseBanner" class="hidden mb-6 p-3 bg-blush-100/90 border border-blush-200 text-deeprose rounded-2xl text-sm font-medium animate-pulse flex items-center justify-center gap-2">
+                    <span>Too bad! You're getting one anyway! 🤭</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+                    <button onclick="handleGiftChoice(true)" class="pulse-btn w-full sm:w-1/2 bg-gradient-to-r from-dustyrose to-blush-400 hover:from-blush-500 hover:to-dustyrose text-white font-medium py-3.5 px-6 rounded-2xl shadow-md transition-all duration-300 flex items-center justify-center gap-2 active:scale-95 text-base">
+                        <span>YES, OF COURSE! ♡</span>
+                    </button>
+
+                    <button id="noBtn" onclick="handleGiftChoice(false)" class="w-full sm:w-1/2 bg-white/90 hover:bg-cream-100 text-deeprose/80 hover:text-deeprose border border-blush-200 font-medium py-3.5 px-6 rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-sm active:scale-95 text-base">
+                        <span>NO, I DON'T! 🙄</span>
+                    </button>
+                </div>
+
+                <p class="mt-8 text-xs text-deeprose/50 italic font-serif">
+                    "Every petal is being drawn just for you..."
+                </p>
+            </div>
+        </section>
+
+
+        <!-- ================= PAGE 3: BOTANICAL FLOWER DRAWING CANVAS ================= -->
+        <section id="page3" class="w-full max-w-4xl transition-all duration-700 ease-in-out hidden opacity-0 transform translate-y-8">
+            <div class="glass-card rounded-3xl p-6 sm:p-10 text-center border border-white/90 relative overflow-hidden flex flex-col items-center">
+                
+                <div class="space-y-3 mb-4 w-full">
+                    <span class="text-dustyrose font-semibold tracking-widest uppercase text-xs bg-blush-50 px-4 py-1.5 rounded-full inline-block border border-blush-100">
+                        ✨ October 20th Special Gift ✨
+                    </span>
+                    
+                    <h1 class="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight leading-tight shimmer-heading max-w-3xl mx-auto italic">
+                        CONGRATULATIONS! YOU'VE RECEIVED A FLOWER!
+                    </h1>
+                    
+                    <p id="drawingStatusText" class="text-deeprose/70 text-xs sm:text-sm font-light max-w-lg mx-auto font-sans italic">
+                        Watch closely as an invisible artist draws a rich bouquet of lilies, roses, tulips and delicate filler blooms...
+                    </p>
+                </div>
+
+                <!-- Botanical Drawing Canvas Container -->
+                <div class="relative w-full max-w-2xl mx-auto py-2 flex items-center justify-center min-h-[480px] sm:min-h-[580px] bg-gradient-to-b from-cream-50/70 via-white/90 to-blush-50/40 rounded-3xl border border-blush-100/90 shadow-inner my-2 overflow-hidden">
+                    
+                    <div class="absolute inset-0 bg-radial from-blush-100/40 via-transparent to-cream-200/30 pointer-events-none"></div>
+
+                    <!-- SVG Hand-Drawn Reference-Style Enormous Bouquet -->
+                    <svg id="botanicalSvg" class="w-full h-[460px] sm:h-[560px] drop-shadow-md select-none" viewBox="0 0 700 800" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="stemGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="#3d4f33"/>
+                                <stop offset="50%" stop-color="#586b4b"/>
+                                <stop offset="100%" stop-color="#8b9e7b"/>
+                            </linearGradient>
+                            
+                            <linearGradient id="lilyGradMain" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffffff"/>
+                                <stop offset="50%" stop-color="#fff0f3"/>
+                                <stop offset="100%" stop-color="#fca2b5"/>
+                            </linearGradient>
+
+                            <linearGradient id="lilyGradDeep" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#ffedf0"/>
+                                <stop offset="65%" stop-color="#f77390"/>
+                                <stop offset="100%" stop-color="#a8586c"/>
+                            </linearGradient>
+
+                            <linearGradient id="roseGradSoft" x1="0%" y1="100%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="#e8456c"/>
+                                <stop offset="50%" stop-color="#f77390"/>
+                                <stop offset="100%" stop-color="#ffd8df"/>
+                            </linearGradient>
+
+                            <linearGradient id="tulipGradRose" x1="0%" y1="100%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="#e8456c"/>
+                                <stop offset="60%" stop-color="#f77390"/>
+                                <stop offset="100%" stop-color="#fff0f3"/>
+                            </linearGradient>
+
+                            <linearGradient id="tulipGradCream" x1="0%" y1="100%" x2="0%" y2="0%">
+                                <stop offset="0%" stop-color="#fca2b5"/>
+                                <stop offset="70%" stop-color="#fffaf2"/>
+                                <stop offset="100%" stop-color="#ffffff"/>
+                            </linearGradient>
+
+                            <linearGradient id="paperGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fffdf9"/>
+                                <stop offset="50%" stop-color="#fbf0e1"/>
+                                <stop offset="100%" stop-color="#f5dfc6"/>
+                            </linearGradient>
+
+                            <linearGradient id="paperPinkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#fff7f8"/>
+                                <stop offset="50%" stop-color="#ffd8df"/>
+                                <stop offset="100%" stop-color="#fca2b5"/>
+                            </linearGradient>
+
+                            <linearGradient id="ribbonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#f77390"/>
+                                <stop offset="100%" stop-color="#a8586c"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- LAYER 1: MULTIPLE STEMS & BRANCHES -->
+                        <g id="layerStems" stroke="url(#stemGrad)" stroke-width="2.5" stroke-linecap="round" fill="none">
+                            <path class="draw-path" d="M 350,750 C 350,650 345,520 350,380" />
+                            <path class="draw-path" d="M 330,740 C 310,630 270,500 240,360" />
+                            <path class="draw-path" d="M 370,740 C 390,630 430,500 460,360" />
+                            <path class="draw-path" d="M 320,580 C 260,510 180,410 130,280" />
+                            <path class="draw-path" d="M 380,580 C 440,510 520,410 570,280" />
+                            <path class="draw-path" d="M 340,520 C 260,430 190,320 160,200" />
+                            <path class="draw-path" d="M 360,520 C 440,430 510,320 540,200" />
+                            <path class="draw-path" d="M 345,450 C 310,330 290,260 270,160" />
+                            <path class="draw-path" d="M 355,450 C 390,330 410,260 430,160" />
+                            <path class="draw-path" d="M 350,420 C 350,300 350,220 350,110" />
+                        </g>
+
+                        <!-- LAYER 2: RICH DENSE FOLIAGE AND LEAVES -->
+                        <g id="layerLeaves" stroke="#4a5d3e" stroke-width="1.6" stroke-linecap="round" fill="#708262" fill-opacity="0">
+                            <!-- Outer background leaves -->
+                            <path class="draw-path" d="M 310,600 C 190,580 110,490 70,410 C 130,460 220,530 310,600 Z" />
+                            <path class="draw-path" d="M 390,600 C 510,580 590,490 630,410 C 570,460 480,530 390,600 Z" />
+                            <path class="draw-path" d="M 280,480 C 170,430 110,330 90,240 C 130,320 210,410 280,480 Z" />
+                            <path class="draw-path" d="M 420,480 C 530,430 590,330 610,240 C 570,320 490,410 420,480 Z" />
+                            <!-- Inner filler foliage -->
+                            <path class="draw-path" d="M 320,400 C 230,320 200,230 190,150 C 230,230 280,320 320,400 Z" />
+                            <path class="draw-path" d="M 380,400 C 470,320 500,230 510,150 C 470,230 420,320 380,400 Z" />
+                            <path class="draw-path" d="M 335,330 C 280,260 260,180 250,110 C 280,180 310,250 335,330 Z" />
+                            <path class="draw-path" d="M 365,330 C 420,260 440,180 450,110 C 420,180 390,250 365,330 Z" />
+                        </g>
+
+                        <!-- LAYER 3: NUMEROUS TULIPS AT DIFFERENT HEIGHTS AND BLOOM STAGES -->
+                        <g id="layerTulips" stroke="#a8586c" stroke-width="1.5" stroke-linecap="round" fill="url(#tulipGradRose)" fill-opacity="0">
+                            <!-- Tulip 1: Far Left -->
+                            <path class="draw-path" d="M 130,280 C 120,240 135,210 150,200 C 160,210 175,240 165,280 C 150,290 140,288 130,280 Z" />
+                            <path class="draw-path" d="M 125,275 C 115,230 130,195 150,185 C 155,215 145,255 125,275 Z" />
+                            <path class="draw-path" d="M 170,275 C 180,230 165,195 150,185 C 145,215 155,255 170,275 Z" />
+                            
+                            <!-- Tulip 2: Upper Left -->
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 210,200 C 200,160 215,130 230,120 C 240,130 255,160 245,200 C 230,210 220,208 210,200 Z" />
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 205,195 C 195,150 210,115 230,105 C 235,135 225,175 205,195 Z" />
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 250,195 C 260,150 245,115 230,105 C 225,135 235,175 250,195 Z" />
+
+                            <!-- Tulip 3: Upper Right -->
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 455,200 C 445,160 460,130 475,120 C 485,130 500,160 490,200 C 475,210 465,208 455,200 Z" />
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 450,195 C 440,150 455,115 475,105 C 480,135 470,175 450,195 Z" />
+                            <path class="draw-path" fill="url(#tulipGradCream)" d="M 495,195 C 505,150 490,115 475,105 C 470,135 480,175 495,195 Z" />
+
+                            <!-- Tulip 4: Far Right -->
+                            <path class="draw-path" d="M 535,280 C 525,240 540,210 555,200 C 565,210 580,240 570,280 C 555,290 545,288 535,280 Z" />
+                            <path class="draw-path" d="M 530,275 C 520,230 535,195 555,185 C 560,215 550,255 530,275 Z" />
+                            <path class="draw-path" d="M 575,275 C 585,230 570,195 555,185 C 550,215 560,255 575,275 Z" />
+
+                            <!-- Tulip Buds (Partial blooms) -->
+                            <path class="draw-path" d="M 170,150 C 160,120 170,100 180,95 C 190,100 200,120 190,150 Z" />
+                            <path class="draw-path" d="M 510,150 C 500,120 510,100 520,95 C 530,100 540,120 530,150 Z" />
+                        </g>
+
+                        <!-- LAYER 4: MULTIPLE LAYERED ROSES -->
+                        <g id="layerRoses" stroke="#632535" stroke-width="1.5" stroke-linecap="round" fill="url(#roseGradSoft)" fill-opacity="0">
+                            <!-- Rose 1: Center Left -->
+                            <g class="rose-group">
+                                <circle class="draw-path" cx="260" cy="320" r="16" />
+                                <path class="draw-path" d="M 242,310 C 235,290 278,290 278,310 C 285,330 235,340 242,310 Z" />
+                                <path class="draw-path" d="M 225,320 C 218,280 295,280 295,320 C 295,360 218,360 225,320 Z" />
+                            </g>
+
+                            <!-- Rose 2: Center Right -->
+                            <g class="rose-group">
+                                <circle class="draw-path" cx="440" cy="320" r="16" />
+                                <path class="draw-path" d="M 422,310 C 415,290 458,290 458,310 C 465,330 415,340 422,310 Z" />
+                                <path class="draw-path" d="M 405,320 C 398,280 475,280 475,320 C 475,360 398,360 405,320 Z" />
+                            </g>
+
+                            <!-- Rose 3: Lower Center -->
+                            <g class="rose-group">
+                                <circle class="draw-path" cx="350" cy="380" r="18" />
+                                <path class="draw-path" d="M 330,370 C 320,345 375,345 375,370 C 385,395 320,405 330,370 Z" />
+                                <path class="draw-path" d="M 310,380 C 300,335 390,335 390,380 C 390,425 300,425 310,380 Z" />
+                            </g>
+                        </g>
+
+                        <!-- LAYER 5: PROMINENT LARGE PINK LILIES (CENTERPIECES) -->
+                        <g id="layerLilies" stroke="#632535" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="url(#lilyGradMain)" fill-opacity="0">
+                            <!-- GRAND CENTRAL LILY -->
+                            <g class="lily-group">
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 350,250 C 332,180 320,120 350,70 C 380,120 368,180 350,250 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 350,250 C 415,200 475,190 515,215 C 462,245 402,262 350,250 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 350,250 C 390,310 430,370 442,405 C 390,348 368,300 350,250 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 350,250 C 310,310 270,370 258,405 C 310,348 332,300 350,250 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 350,250 C 285,200 225,190 185,215 C 238,245 298,262 350,250 Z" />
+                                <!-- Stamens & Details -->
+                                <path class="draw-path" stroke="#d4af37" stroke-width="1.6" fill="none" d="M 350,250 Q 338,190 332,150 M 350,250 Q 350,185 350,145 M 350,250 Q 362,190 368,150 M 350,250 Q 385,215 415,195 M 350,250 Q 315,215 285,195" />
+                            </g>
+
+                            <!-- SECONDARY LILY TOP LEFT -->
+                            <g class="lily-group">
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 280,180 C 265,130 250,90 270,50 C 295,90 290,130 280,180 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 280,180 C 330,140 375,130 405,150 C 365,175 320,188 280,180 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 280,180 C 220,140 180,130 150,150 C 190,175 235,188 280,180 Z" />
+                            </g>
+
+                            <!-- SECONDARY LILY TOP RIGHT -->
+                            <g class="lily-group">
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 420,180 C 405,130 390,90 410,50 C 435,90 430,130 420,180 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 420,180 C 470,140 515,130 545,150 C 505,175 460,188 420,180 Z" />
+                                <path class="draw-path" fill="url(#lilyGradDeep)" d="M 420,180 C 370,140 330,130 300,150 C 340,175 385,188 420,180 Z" />
+                            </g>
+                        </g>
+
+                        <!-- LAYER 6: SMALL WHITE FILLER BLOOMS (BABY'S BREATH SPRAYS) -->
+                        <g id="layerFillers" stroke="#d4af37" stroke-width="1" fill="#ffffff" fill-opacity="0">
+                            <!-- Left Sprays -->
+                            <circle class="draw-path" cx="190" cy="220" r="5" /><circle class="draw-path" cx="200" cy="210" r="4" /><circle class="draw-path" cx="180" cy="240" r="4" />
+                            <circle class="draw-path" cx="150" cy="310" r="5" /><circle class="draw-path" cx="140" cy="320" r="4" />
+                            <!-- Right Sprays -->
+                            <circle class="draw-path" cx="510" cy="220" r="5" /><circle class="draw-path" cx="500" cy="210" r="4" /><circle class="draw-path" cx="520" cy="240" r="4" />
+                            <circle class="draw-path" cx="550" cy="310" r="5" /><circle class="draw-path" cx="560" cy="320" r="4" />
+                            <!-- Top Sprays -->
+                            <circle class="draw-path" cx="300" cy="100" r="5" /><circle class="draw-path" cx="310" cy="90" r="4" />
+                            <circle class="draw-path" cx="390" cy="100" r="5" /><circle class="draw-path" cx="400" cy="90" r="4" />
+                        </g>
+
+                        <!-- LAYER 7: ELEGANT WRAPPING PAPER & DUSTY ROSE RIBBON BOW -->
+                        <g id="layerWrapping" stroke="#a8586c" stroke-width="2" stroke-linecap="round" fill="url(#paperGrad)" fill-opacity="0">
+                            <path class="draw-path" fill="url(#paperPinkGrad)" d="M 150,490 L 260,620 L 350,760 L 230,550 Z" />
+                            <path class="draw-path" fill="url(#paperPinkGrad)" d="M 550,490 L 440,620 L 350,760 L 470,550 Z" />
+                            <path class="draw-path" d="M 170,450 C 270,490 430,490 530,450 C 470,570 230,570 170,450 Z" />
+                            <!-- Ribbon Bow & Flowing Ends -->
+                            <path class="draw-path" stroke="#e8456c" stroke-width="2.5" fill="url(#ribbonGrad)" fill-opacity="0" d="M 350,620 C 330,600 295,595 275,620 C 255,645 315,665 350,635 C 385,665 445,645 425,620 C 405,595 370,600 350,620 Z" />
+                            <path class="draw-path" stroke="#e8456c" stroke-width="2.5" fill="#e8456c" fill-opacity="0" d="M 335,635 C 310,685 275,735 240,760 M 365,635 C 390,685 425,735 460,760" />
+                        </g>
+                    </svg>
+
+                </div>
+
+                <!-- Action Bar -->
+                <div class="mt-4 flex flex-wrap gap-3 justify-center items-center">
+                    <button id="replayBtn" onclick="restartDrawingAnimation()" class="hidden bg-white/90 hover:bg-blush-50 text-dustyrose border border-blush-200 text-xs font-medium px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 active:scale-95 shadow-sm">
+                        <i class="fas fa-redo-alt text-xs"></i>
+                        <span>Redraw Bouquet 🌸</span>
+                    </button>
+
+                    <button id="cardBtn" onclick="openModal()" class="hidden pulse-btn bg-gradient-to-r from-dustyrose to-blush-400 hover:from-blush-500 hover:to-dustyrose text-white text-xs font-semibold px-6 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center gap-2">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <span>Read Your Card 💌</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= FINAL POPUP: EXACT ORIGINAL VIETNAMESE MESSAGE ================= -->
+    <div id="loveModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deeprose/30 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-500">
+        
+        <div id="modalContent" class="glass-card w-full max-w-lg rounded-3xl p-6 sm:p-8 border border-white/90 shadow-2xl transform scale-90 transition-transform duration-500 relative max-h-[92vh] flex flex-col my-auto">
+            
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-blush-50 text-dustyrose hover:text-deeprose hover:bg-blush-100 flex items-center justify-center transition-colors">
+                <i class="fas fa-times text-xs"></i>
+            </button>
+
+            <div class="text-center pb-3 border-b border-blush-100">
+                <div class="w-10 h-10 bg-blush-50 text-dustyrose rounded-2xl flex items-center justify-center mx-auto mb-1 text-lg shadow-inner">
+                    🌷
+                </div>
+                <h3 class="font-serif text-2xl sm:text-3xl font-normal text-deeprose italic">
+                    Happy October 20th!
+                </h3>
+                <p class="text-[11px] text-dustyrose font-semibold uppercase tracking-widest mt-0.5">
+                    For Mnhie • A Special Wish
+                </p>
+            </div>
+
+            <!-- EXACT ORIGINAL VIETNAMESE MESSAGE PRESERVED -->
+            <div class="my-4 overflow-y-auto custom-scrollbar pr-1 space-y-4 text-deeprose/90 leading-relaxed text-sm sm:text-base font-normal">
+                
+                <p class="font-serif text-base sm:text-lg leading-relaxed uppercase tracking-wide">
+                    BẠN CHÚC MNHIE LUÔN XINK, VUI TƯƠI VÀ HỒN NHIÊN HÌ, CHẠM HOA HOA NỞ, GẶP NGƯỜI NGƯỜI THƯƠNG, TRÀN NGẬP NIỀM VUI VÀ MAY MẮN
+                </p>
+
+                <!-- Emphasized Final Line -->
+                <div class="p-4 bg-gradient-to-r from-blush-50 via-cream-50 to-blush-50 rounded-2xl border border-blush-200/70 text-center my-3 shadow-xs">
+                    <p class="font-script text-2xl sm:text-4xl text-dustyrose font-bold leading-tight uppercase tracking-wider">
+                        MNHIE LÀ BÔNG HOA ĐẸP NHẤT
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Modal Action Footer -->
+            <div class="pt-3 border-t border-blush-100 text-center flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <button onclick="sendVirtualHug(event)" class="w-full sm:w-auto bg-gradient-to-r from-dustyrose to-blush-400 hover:from-blush-500 hover:to-dustyrose text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-all shadow-md active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fas fa-heart text-white text-xs"></i>
+                    <span>A little hug for you ♡</span>
+                </button>
+
+                <button onclick="closeModal()" class="w-full sm:w-auto bg-white/80 hover:bg-cream-100 text-deeprose text-xs font-medium px-4 py-2.5 rounded-xl border border-blush-200 transition-all active:scale-95">
+                    Keep Blooming 🌸
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center text-xs text-deeprose/40 relative z-20 font-serif italic">
+        <p>Vietnamese Women's Day • October 20th ♡ Made with love for Mnhie</p>
+    </footer>
+
+
+    <script>
+        // Global Application State
+        let selectedPersona = 'Mnhie';
+        let isAudioPlaying = false;
+        let isDrawingComplete = false;
+        const bgm = document.getElementById('bgm');
+
+        // Audio Control Toggle
+        function toggleAudio() {
+            const icon = document.getElementById('musicIcon');
+            if (isAudioPlaying) {
+                bgm.pause();
+                isAudioPlaying = false;
+                icon.className = 'fas fa-music text-base';
+            } else {
+                bgm.play().then(() => {
+                    isAudioPlaying = true;
+                    icon.className = 'fas fa-pause text-base text-dustyrose animate-pulse';
+                }).catch(err => {
+                    console.log("Audio play blocked by browser:", err);
+                });
+            }
+        }
+
+        // Auto play audio on first user click
+        document.body.addEventListener('click', function startAudioOnFirstClick() {
+            if (!isAudioPlaying) {
+                bgm.play().then(() => {
+                    isAudioPlaying = true;
+                    document.getElementById('musicIcon').className = 'fas fa-pause text-base text-dustyrose animate-pulse';
+                }).catch(() => {});
+            }
+        }, { once: true });
+
+        // Navigation: Page 1 -> Page 2
+        function goToPage2(personaName) {
+            selectedPersona = personaName;
+            
+            const greetingBadge = document.getElementById('greetingBadge');
+            greetingBadge.innerText = `Hello, ${selectedPersona}! ♡`;
+
+            triggerBurstConfetti(0.5, 0.5, 20);
+
+            const p1 = document.getElementById('page1');
+            const p2 = document.getElementById('page2');
+
+            p1.classList.add('opacity-0', '-translate-y-8');
+            
+            setTimeout(() => {
+                p1.classList.add('hidden');
+                p2.classList.remove('hidden');
+                void p2.offsetWidth;
+                p2.classList.remove('opacity-0', 'translate-y-8');
+                p2.classList.add('opacity-100', 'translate-y-0');
+            }, 400);
+        }
+
+        // Choice Handler on Page 2
+        function handleGiftChoice(wantsGift) {
+            const teaseBanner = document.getElementById('teaseBanner');
+            
+            if (!wantsGift) {
+                teaseBanner.classList.remove('hidden');
+                triggerBurstConfetti(0.5, 0.4, 25);
+                
+                setTimeout(() => {
+                    goToPage3();
+                }, 1300);
+            } else {
+                triggerBurstConfetti(0.5, 0.5, 35);
+                goToPage3();
+            }
+        }
+
+        // Navigation: Page 2 -> Page 3
+        function goToPage3() {
+            const p2 = document.getElementById('page2');
+            const p3 = document.getElementById('page3');
+
+            p2.classList.add('opacity-0', '-translate-y-8');
+
+            setTimeout(() => {
+                p2.classList.add('hidden');
+                p3.classList.remove('hidden');
+                void p3.offsetWidth;
+                p3.classList.remove('opacity-0', 'translate-y-8');
+                p3.classList.add('opacity-100', 'translate-y-0');
+
+                // Launch initial ambient fireworks as drawing starts
+                launchFireworkBatch(6, 350);
+
+                startBotanicalDrawingSequence();
+            }, 400);
+        }
+
+        // ================= BOTANICAL DRAWING SEQUENCE =================
+        function startBotanicalDrawingSequence() {
+            const svg = document.getElementById('botanicalSvg');
+            const statusText = document.getElementById('drawingStatusText');
+            const replayBtn = document.getElementById('replayBtn');
+            const cardBtn = document.getElementById('cardBtn');
+
+            replayBtn.classList.add('hidden');
+            cardBtn.classList.add('hidden');
+            isDrawingComplete = false;
+
+            const allPaths = svg.querySelectorAll('.draw-path');
+            allPaths.forEach(path => {
+                const length = path.getTotalLength ? path.getTotalLength() : 1000;
+                path.style.strokeDasharray = length;
+                path.style.strokeDashoffset = length;
+                path.style.transition = 'none';
+                path.style.fillOpacity = '0';
+            });
+
+            void svg.offsetWidth;
+
+            // Sequential Stroke Drawing Steps for Enormous Bouquet
+            animateLayer('#layerStems .draw-path', 200, 2000, "Drawing thick bouquet stems from bottom upward...");
+
+            setTimeout(() => {
+                animateLayer('#layerLeaves .draw-path', 0, 2200, "Growing dense natural foliage and green leaves...", true, 0.45);
+            }, 2200);
+
+            setTimeout(() => {
+                animateLayer('#layerTulips .draw-path', 0, 2200, "Drawing multiple tulip petals and delicate buds...", true, 0.65);
+            }, 4400);
+
+            setTimeout(() => {
+                animateLayer('#layerRoses .draw-path', 0, 2200, "Forming layered pink rose petals...", true, 0.65);
+            }, 6600);
+
+            setTimeout(() => {
+                animateLayer('#layerLilies .draw-path', 0, 2400, "Drawing grand center lilies with curved petals and golden stamens...", true, 0.7);
+            }, 8800);
+
+            setTimeout(() => {
+                animateLayer('#layerFillers .draw-path', 0, 1600, "Adding white baby's breath filler bloom sprays...", true, 0.85);
+            }, 11200);
+
+            setTimeout(() => {
+                animateLayer('#layerWrapping .draw-path', 0, 1800, "Wrapping the enormous bouquet with cream paper and ribbon...", true, 0.6);
+            }, 12800);
+
+            // Completion
+            setTimeout(() => {
+                statusText.innerText = "Your extravagant hand-drawn bouquet of lilies and tulips is complete! 🌸";
+                replayBtn.classList.remove('hidden');
+                cardBtn.classList.remove('hidden');
+                isDrawingComplete = true;
+
+                // SPECTACULAR FIREWORKS BARRAGE UPON COMPLETION
+                launchFireworkBatch(12, 200);
+                fireCelebrationConfetti();
+
+                // Open final message popup automatically after completion
+                setTimeout(() => {
+                    openModal();
+                }, 800);
+
+            }, 14800);
+        }
+
+        function animateLayer(selector, delay, duration, statusMessage, enableFill = false, targetOpacity = 0.5) {
+            const statusText = document.getElementById('drawingStatusText');
+            if (statusMessage && statusText) {
+                statusText.innerText = statusMessage;
+            }
+
+            setTimeout(() => {
+                const paths = document.querySelectorAll(selector);
+                paths.forEach((path, idx) => {
+                    const length = path.getTotalLength ? path.getTotalLength() : 1000;
+                    path.style.strokeDasharray = length;
+                    path.style.strokeDashoffset = length;
+                    path.style.transition = `stroke-dashoffset ${duration / 1000}s cubic-bezier(0.4, 0, 0.2, 1) ${idx * 50}ms, fill-opacity 0.8s ease ${duration / 1000}s`;
+                    
+                    setTimeout(() => {
+                        path.style.strokeDashoffset = '0';
+                        if (enableFill) {
+                            path.style.fillOpacity = targetOpacity.toString();
+                        }
+                    }, 50);
+                });
+            }, delay);
+        }
+
+        function restartDrawingAnimation() {
+            startBotanicalDrawingSequence();
+            triggerBurstConfetti(0.5, 0.5, 30);
+            launchFireworkBatch(8, 250);
+        }
+
+        function openModal() {
+            const modal = document.getElementById('loveModal');
+            const content = document.getElementById('modalContent');
+            if (!modal) return;
+
+            modal.classList.remove('pointer-events-none', 'opacity-0');
+            modal.classList.add('opacity-100');
+            
+            content.classList.remove('scale-90');
+            content.classList.add('scale-100');
+
+            fireCelebrationConfetti();
+            launchFireworkBatch(14, 180);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('loveModal');
+            const content = document.getElementById('modalContent');
+            if (!modal) return;
+
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('opacity-100');
+            
+            content.classList.add('scale-90');
+            content.classList.remove('scale-100');
+        }
+
+        function sendVirtualHug(evt) {
+            fireHeartBurst();
+            triggerBurstConfetti(0.5, 0.6, 90);
+
+            // Grand Fireworks Burst for Virtual Hug
+            launchFireworkBatch(16, 120);
+
+            const btn = evt ? evt.currentTarget : document.querySelector('#loveModal button');
+            if (btn) {
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<i class="fas fa-heart text-white animate-ping"></i><span>Big hug sent! 🤗💖</span>`;
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2500);
+            }
+        }
+
+        function triggerBurstConfetti(x = 0.5, y = 0.5, count = 35) {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: count,
+                    spread: 70,
+                    origin: { x: x, y: y },
+                    colors: ['#f77390', '#a8586c', '#ffd8df', '#fffaf2', '#d4af37', '#c084fc', '#ffffff'],
+                    disableForReducedMotion: true
+                });
+            }
+        }
+
+        function fireCelebrationConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 110,
+                    spread: 120,
+                    origin: { y: 0.6 },
+                    colors: ['#e8456c', '#f77390', '#ffd8df', '#fbf0e1', '#8b9e7b', '#d4af37', '#ffffff'],
+                    scalar: 1.25
+                });
+            }
+        }
+
+        function fireHeartBurst() {
+            const container = document.getElementById('floatingContainer');
+            if (!container) return;
+
+            const icons = ['💖', '🌸', '✨', '🌷', '💕', '💗', '🎀', '⭐', '🌺'];
+
+            for (let i = 0; i < 28; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle text-xl sm:text-3xl select-none';
+                particle.innerText = icons[Math.floor(Math.random() * icons.length)];
+                
+                const startX = Math.random() * 92 + 4;
+                const duration = Math.random() * 3 + 3;
+                const delay = Math.random() * 0.6;
+
+                particle.style.left = `${startX}vw`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+
+                container.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, (duration + delay) * 1000);
+            }
+        }
+
+        function initBackgroundParticles() {
+            const container = document.getElementById('floatingContainer');
+            if (!container) return;
+
+            const symbols = ['🌸', '✨', '💕', '🌷', '🤍', '⭐'];
+
+            setInterval(() => {
+                if (container.children.length < 20) {
+                    const p = document.createElement('div');
+                    p.className = 'floating-particle text-sm sm:text-base select-none opacity-70';
+                    p.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                    
+                    const left = Math.random() * 96 + 2;
+                    const duration = Math.random() * 8 + 6;
+
+                    p.style.left = `${left}vw`;
+                    p.style.animationDuration = `${duration}s`;
+
+                    container.appendChild(p);
+
+                    setTimeout(() => {
+                        p.remove();
+                    }, duration * 1000);
+                }
+            }, 900);
+        }
+
+        // ================= HIGH-PERFORMANCE BLING-BLING FIREWORKS ENGINE =================
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let fireworks = [];
+        let particles = [];
+        let ambientSparkles = [];
+
+        // Rich Romantic Palette: Rose Gold, Blush, Champagne Gold, Silver, Lavender, Pure Sparkle
+        const fireworkColors = [
+            '#f77390', '#e8456c', '#ffd8df', '#d4af37', 
+            '#c084fc', '#ffffff', '#fca2b5', '#e2e8f0', '#fef08a'
+        ];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Firework {
+            constructor(targetX, targetY) {
+                this.x = Math.random() * canvas.width * 0.85 + canvas.width * 0.075;
+                this.y = canvas.height + 10;
+                this.targetX = targetX || Math.random() * canvas.width * 0.85 + canvas.width * 0.075;
+                this.targetY = targetY || Math.random() * (canvas.height * 0.5) + canvas.height * 0.08;
+                this.speed = Math.random() * 4 + 8;
+                this.angle = Math.atan2(this.targetY - this.y, this.targetX - this.x);
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+                this.trail = [];
+                this.exploded = false;
+            }
+
+            update() {
+                this.trail.push({ x: this.x, y: this.y });
+                if (this.trail.length > 8) this.trail.shift();
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Spawn rocket trail sparkles
+                if (Math.random() < 0.4) {
+                    particles.push(new SparkleParticle(this.x, this.y, '#ffd8df', 1.5));
+                }
+
+                if (this.vy < 0 && this.y <= this.targetY) {
+                    this.exploded = true;
+                    this.createExplosion();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2.5;
+                if (this.trail.length > 0) {
+                    ctx.moveTo(this.trail[0].x, this.trail[0].y);
+                    for (let point of this.trail) {
+                        ctx.lineTo(point.x, point.y);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            createExplosion() {
+                const particleCount = Math.floor(Math.random() * 60) + 90;
+                const isStarShape = Math.random() < 0.35;
+
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new BurstParticle(this.x, this.y, this.color, isStarShape));
+                }
+
+                // Add central flash & extra glitter dust
+                for (let g = 0; g < 25; g++) {
+                    particles.push(new GlitterParticle(this.x, this.y, '#ffffff'));
+                }
+            }
+        }
+
+        class BurstParticle {
+            constructor(x, y, color, isStarShape = false) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.isStar = isStarShape;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = Math.random() * 8 + 1.5;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.gravity = 0.07;
+                this.friction = 0.96;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.008;
+                this.size = Math.random() * 3 + 1.2;
+                this.twinkle = Math.random() > 0.5;
+            }
+
+            update() {
+                this.vx *= this.friction;
+                this.vy *= this.friction;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+
+                if (this.twinkle && Math.random() < 0.2) {
+                    this.alpha = Math.min(1, this.alpha + 0.2);
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+
+                if (this.isStar) {
+                    // Draw four-pointed star
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        class GlitterParticle {
+            constructor(x, y, color) {
+                this.x = x + (Math.random() - 0.5) * 20;
+                this.y = y + (Math.random() - 0.5) * 20;
+                this.color = color;
+                this.vx = (Math.random() - 0.5) * 3;
+                this.vy = (Math.random() - 0.5) * 3 + 0.5;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+                this.size = Math.random() * 2 + 0.8;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#ffffff';
+                ctx.fillRect(this.x, this.y, this.size * 1.5, this.size * 1.5);
+                ctx.restore();
+            }
+        }
+
+        class SparkleParticle {
+            constructor(x, y, color, size = 1) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.alpha = 0.9;
+                this.decay = 0.04;
+                this.size = size;
+            }
+
+            update() {
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initAmbientSparkles() {
+            ambientSparkles = [];
+            for (let i = 0; i < 40; i++) {
+                ambientSparkles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.8 + 0.5,
+                    alpha: Math.random(),
+                    speed: Math.random() * 0.02 + 0.005,
+                    color: fireworkColors[Math.floor(Math.random() * fireworkColors.length)]
+                });
+            }
+        }
+
+        function drawAmbientSparkles() {
+            for (let s of ambientSparkles) {
+                s.alpha += s.speed;
+                if (s.alpha > 1 || s.alpha < 0) {
+                    s.speed = -s.speed;
+                }
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, s.alpha);
+                ctx.fillStyle = s.color;
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = s.color;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawAmbientSparkles();
+
+            // Update & Draw Rockets
+            for (let i = fireworks.length - 1; i >= 0; i--) {
+                fireworks[i].update();
+                fireworks[i].draw();
+                if (fireworks[i].exploded) {
+                    fireworks.splice(i, 1);
+                }
+            }
+
+            // Update & Draw Particles
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+                if (particles[i].alpha <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateFireworks);
+        }
+
+        function launchFireworkBatch(count = 6, intervalMs = 200) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const targetX = Math.random() * canvas.width * 0.85 + canvas.width * 0.075;
+                    const targetY = Math.random() * (canvas.height * 0.45) + canvas.height * 0.08;
+                    fireworks.push(new Firework(targetX, targetY));
+                }, i * intervalMs);
+            }
+        }
+
+        // Initialize on window load
+        window.onload = function() {
+            initBackgroundParticles();
+            initAmbientSparkles();
+            animateFireworks();
+
+            // Occasional automatic ambient fireworks
+            setInterval(() => {
+                if (document.getElementById('page3').classList.contains('opacity-100') && fireworks.length < 3) {
+                    launchFireworkBatch(2, 300);
+                }
+            }, 4000);
+        };
+    </script>
+</body>
+</html>
